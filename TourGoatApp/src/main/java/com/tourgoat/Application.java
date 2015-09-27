@@ -24,10 +24,10 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         // save a couple of users
-        userDao.save(new User("Fitsum", "fitsum@email.com"));
-        userDao.save(new User("Weni", "weni@email.com"));
-        userDao.save(new User("Seifu", "seifu@email.com"));
-        userDao.save(new User("David", "dave@gmail.com"));
+        userDao.save(new User("fitsum@email.com", "Fitsum"));
+        userDao.save(new User("weni@email.com", "Weni"));
+        userDao.save(new User("seifu@email.com", "Seifu"));
+        userDao.save(new User("dave@gmail.com", "Dave"));
 
         // fetch all customers
         log.info("Customers found with findAll():");
