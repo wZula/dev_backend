@@ -1,4 +1,4 @@
-package com.tourgoat.models;
+package com.tourgoat.users.models;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

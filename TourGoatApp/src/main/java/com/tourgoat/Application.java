@@ -1,9 +1,9 @@
 package com.tourgoat;
 
-import com.tourgoat.models.User;
+import com.tourgoat.users.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tourgoat.repositories.UserDao;
+import com.tourgoat.users.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

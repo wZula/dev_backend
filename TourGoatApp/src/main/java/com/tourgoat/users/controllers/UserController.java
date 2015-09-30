@@ -1,7 +1,7 @@
-package com.tourgoat.controllers;
+package com.tourgoat.users.controllers;
 
-import com.tourgoat.models.User;
-import com.tourgoat.repositories.UserDao;
+import com.tourgoat.users.models.User;
+import com.tourgoat.users.repositories.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
-package com.tourgoat.repositories;
+package com.tourgoat.users.repositories;
 
-import com.tourgoat.models.User;
+import com.tourgoat.users.models.User;
 import javax.transaction.Transactional;
 
 import org.springframework.data.repository.CrudRepository;
