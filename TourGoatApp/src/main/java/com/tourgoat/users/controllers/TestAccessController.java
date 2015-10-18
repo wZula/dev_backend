@@ -1,25 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.tourgoat.users.controllers;
 
-import com.tourgoat.users.models.User;
-import com.tourgoat.users.repositories.UserDao;
-
+import com.tourgoat.users.models.TestUser;
+import com.tourgoat.users.repositories.TestUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/")
-public class UserController {
-
+/**
+ *
+ * @author Fitsum
+ */
+@RestController
+ @RequestMapping("/test")
+public class TestAccessController {
     @Autowired
-    private UserDao userDao;
+    private TestUserDao userDao;
 
     @RequestMapping("/getuser")
     @ResponseBody
     public Iterable userList() {
         return userDao.findAll();
     }
+
+    
 
     /**
      * /create --> Create a new user and save it in the database.
@@ -31,9 +40,9 @@ public class UserController {
     @RequestMapping("/create")
     @ResponseBody
     public String create(String email, String name) {
-        User user = null;
+        TestUser user = null;
         try {
-            user = new User(email, name);
+            user = new TestUser(email, name);
             userDao.save(user);
         } catch (Exception ex) {
             return "Error creating the user: " + ex.toString();
@@ -51,7 +60,7 @@ public class UserController {
     @ResponseBody
     public String delete(long id) {
         try {
-            User user = new User(id);
+            TestUser user = new TestUser(id);
             userDao.delete(user);
         } catch (Exception ex) {
             return "Error deleting the user:" + ex.toString();
@@ -70,7 +79,7 @@ public class UserController {
     public String getByEmail(String email) {
         String userId;
         try {
-            User user = userDao.findByEmail(email);
+            TestUser user = userDao.findByEmail(email);
             userId = String.valueOf(user.getId());
         } catch (Exception ex) {
             return "User not found";
@@ -91,7 +100,7 @@ public class UserController {
     @ResponseBody
     public String updateUser(long id, String email, String name) {
         try {
-            User user = userDao.findOne(id);
+            TestUser user = userDao.findOne(id);
             user.setEmail(email);
             user.setName(name);
             userDao.save(user);
@@ -101,4 +110,4 @@ public class UserController {
         return "User succesfully updated!";
     }
 
-} // class UserController
+}

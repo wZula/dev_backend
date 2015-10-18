@@ -1,9 +1,9 @@
 package com.tourgoat;
 
-import com.tourgoat.users.models.User;
+import com.tourgoat.users.models.TestUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tourgoat.users.repositories.UserDao;
+import com.tourgoat.users.repositories.TestUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ public class Application implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Autowired
-    private UserDao userDao;
+    private TestUserDao userDao;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -24,21 +24,21 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         // save a couple of users
-        userDao.save(new User("fitsum@email.com", "Fitsum"));
-        userDao.save(new User("weni@email.com", "Weni"));
-        userDao.save(new User("seifu@email.com", "Seifu"));
-        userDao.save(new User("dave@gmail.com", "Dave"));
+        userDao.save(new TestUser("fitsum@email.com", "Fitsum"));
+        userDao.save(new TestUser("weni@email.com", "Weni"));
+        userDao.save(new TestUser("seifu@email.com", "Seifu"));
+        userDao.save(new TestUser("dave@gmail.com", "Dave"));
 
         // fetch all customers
         log.info("Customers found with findAll():");
         log.info("-------------------------------");
-        for (User user : userDao.findAll()) {
+        for (TestUser user : userDao.findAll()) {
             log.info(user.toString());
         }
         System.out.println();
 
         // fetch an individual user by ID
-        User user = userDao.findOne(1L);
+        TestUser user = userDao.findOne(1L);
         log.info("Customer found with findOne(1L):");
         log.info("--------------------------------");
         log.info(user.toString());
