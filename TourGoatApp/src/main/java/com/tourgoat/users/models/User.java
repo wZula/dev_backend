@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
@@ -18,6 +19,7 @@ import org.springframework.data.annotation.Id;
  * @author 212428011
  */
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
