@@ -50,6 +50,15 @@ public class FacebookController {
     @Value("${facebook.secret}")
     private String facebookSecret;
 
+    @Value("${facebook.accessTokenUrl}")
+    private String accessTokenUrl;
+
+    @Value("${facebook.graphApiUrl}")
+    private String graphApiUrl;
+
+    @Value("${facebook.userPictureUrl}")
+    private String userPictureUrl;
+
     private final JsonHelper jsonHelper = new JsonHelper();
 
     public FacebookController() {
@@ -60,9 +69,6 @@ public class FacebookController {
     public ResponseEntity loginFacebook(@RequestBody final Payload payload,
             @Context final HttpServletRequest request) throws JsonParseException, JsonMappingException,
             IOException, ParseException, JOSEException {
-        final String accessTokenUrl = "https://graph.facebook.com/v2.4/oauth/access_token";
-        final String graphApiUrl = "https://graph.facebook.com/v2.4/me?fields=id,name,email";
-        final String userPictureUrl = "https://graph.facebook.com/v2.4/{user-id}/picture";
 
         Response response;
 
