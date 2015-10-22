@@ -43,17 +43,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GoogleController {
 
-    private static Logger LOG = Logger.getLogger(GoogleController.class);
+    private static final Logger LOG = Logger.getLogger(GoogleController.class);
 
     @Value("${google.secret}")
     private String googleSecret;
+    
+     @Value("${google.accessTokenUrl}")
+    private String accessTokenUrl;
+     
+      @Value("${google.peopleApiUrl}")
+    private String peopleApiUrl;
 
-    private Client restClient;
+    private final Client restClient;
 
     @Autowired
     private UserProcessor userProcessor;
 
-    private JsonHelper jsonHelper = new JsonHelper();
+    private final JsonHelper jsonHelper = new JsonHelper();
 
     public GoogleController() {
         restClient = ClientBuilder.newClient();
@@ -63,12 +69,10 @@ public class GoogleController {
     public ResponseEntity loginGoogle(@RequestBody final Payload payload,
             @Context final HttpServletRequest request) throws JOSEException, ParseException,
             JsonParseException, JsonMappingException, IOException {
-        final String accessTokenUrl = "https://accounts.google.com/o/oauth2/token";
-        final String peopleApiUrl = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
         Response response;
 
         // Step 1. Exchange authorization code for access token.
-        final MultivaluedMap<String, String> accessData = new MultivaluedHashMap<String, String>();
+        final MultivaluedMap<String, String> accessData = new MultivaluedHashMap<>();
         accessData.add(CLIENT_ID_KEY, payload.getClientId());
         accessData.add(REDIRECT_URI_KEY, payload.getRedirectUri());
         accessData.add(CLIENT_SECRET, googleSecret);
