@@ -14,8 +14,11 @@ import static com.tourgoat.users.controllers.OAuthConstants.CLIENT_SECRET;
 import static com.tourgoat.users.controllers.OAuthConstants.CODE_KEY;
 import static com.tourgoat.users.controllers.OAuthConstants.REDIRECT_URI_KEY;
 import com.tourgoat.users.models.User;
+import com.tourgoat.users.utils.DateService;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
@@ -90,6 +93,8 @@ public class FacebookController {
 
         final Map<String, Object> userInfo = jsonHelper.getResponseEntity(response);
 
+        checkFacebookData(userInfo);
+
         String userId = userInfo.get("id").toString();
         String userIdPictureUrl = userPictureUrl.replace("{user-id}", userId);
 
@@ -99,11 +104,33 @@ public class FacebookController {
                 userInfo.get("name").toString(),
                 userInfo.get("email").toString(),
                 userIdPictureUrl,
-                userInfo.get("name").toString(),
-                //                userInfo.get("first_name").toString(),
-                //                userInfo.get("last_name").toString());
-                "No first Name",
-                "No last name");
+                userInfo.get("first_name").toString(),
+                userInfo.get("last_name").toString(),
+                (Date) userInfo.get("dateOfBirth"));
+    }
+
+    //Facebook update its API so there is a chance to get null value 
+    private void checkFacebookData(Map<String, Object> userInfo) {
+
+        if (!userInfo.containsKey("id")) {
+            userInfo.put("id", "No ID");
+        }
+        if (!userInfo.containsKey("email")) {
+            userInfo.put("email", "No email");
+        }
+        if (!userInfo.containsKey("name")) {
+            userInfo.put("name", "No full_name");
+        }
+        if (!userInfo.containsKey("first_name")) {
+            userInfo.put("first_name", "No first_name");
+        }
+        if (!userInfo.containsKey("last_name")) {
+            userInfo.put("last_name", "No last_name");
+        }
+        if (!userInfo.containsKey("dateOfBirth")) {
+            userInfo.put("dateOfBirth", null);
+        }
+
     }
 
 }

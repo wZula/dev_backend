@@ -6,17 +6,20 @@
 package com.tourgoat.users.models;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 
 /**
  *
- * @author 212428011
+ * @author fitsum
  */
 @Entity
 @Table(name = "users")
@@ -26,26 +29,24 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @javax.persistence.Id
     private Long id;
-   
     private String userId;
-    @NotNull
     private String email;
-//    @NotNull
     private String password;
     private String picture;
-//    @NotNull
-    private String displayName;
-    private String name;
-    private String givenName;
-    private String familyName;
-    /**
-     * Facebook user id
-     */
+    private String fullname;
+    private String firstName;
+    private String lastName;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateOfBirth;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date createdDate;
+    private boolean isAccountActive;
+    private boolean isEmailVerification; 
     private String facebook;
-    /**
-     * Google user id
-     */
     private String google;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -63,9 +64,6 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-   
-    
-
     public String getEmail() {
         return email;
     }
@@ -80,14 +78,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     public String getFacebook() {
@@ -114,14 +104,6 @@ public class User implements Serializable {
         return picture;
     }
 
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
-    }
-
-    public String getFamilyName() {
-        return familyName;
-    }
-
     public enum Provider {
 
         FACEBOOK("facebook"), GOOGLE("google");
@@ -141,25 +123,70 @@ public class User implements Serializable {
         }
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getGivenName() {
-        return givenName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public boolean isIsAccountActive() {
+        return isAccountActive;
+    }
+
+    public void setIsAccountActive(boolean isAccountActive) {
+        this.isAccountActive = isAccountActive;
+    }
+
+
+
+    public boolean isIsEmailVerification() {
+        return isEmailVerification;
+    }
+
+    public void setIsEmailVerification(boolean isEmailVerification) {
+        this.isEmailVerification = isEmailVerification;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", displayName=" + displayName + ", facebook=" + facebook + ", google=" + google + "'}'";
+        return "User{" + "id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password + ", picture=" + picture + ", fullname=" + fullname + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", createdDate=" + createdDate + ", isAccountActive=" + isAccountActive + ", isEmailVerification=" + isEmailVerification + ", facebook=" + facebook + ", google=" + google + '}';
     }
+
+
+    
 
 }
