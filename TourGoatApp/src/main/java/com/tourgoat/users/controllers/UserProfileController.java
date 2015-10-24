@@ -35,12 +35,12 @@ public class UserProfileController {
         try {
             foundUser = getAuthUser(request);
             if (foundUser == null) {
-                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (JOSEException | ParseException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<User>(foundUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(foundUser, HttpStatus.CREATED);
     }
 
     private User getAuthUser(HttpServletRequest request) throws JOSEException, ParseException {

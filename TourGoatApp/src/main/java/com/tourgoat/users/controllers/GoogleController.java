@@ -19,6 +19,7 @@ import com.tourgoat.users.models.User;
 import com.tourgoat.users.utils.AuthUtils;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
@@ -47,11 +48,11 @@ public class GoogleController {
 
     @Value("${google.secret}")
     private String googleSecret;
-    
-     @Value("${google.accessTokenUrl}")
+
+    @Value("${google.accessTokenUrl}")
     private String accessTokenUrl;
-     
-      @Value("${google.peopleApiUrl}")
+
+    @Value("${google.peopleApiUrl}")
     private String peopleApiUrl;
 
     private final Client restClient;
@@ -95,9 +96,9 @@ public class GoogleController {
         return userProcessor.processUser(request, User.Provider.GOOGLE, userInfo.get("sub").toString(),
                 userInfo.get("name").toString(), userInfo.get("email").toString(),
                 userInfo.get("picture").toString(),
-                userInfo.get("name").toString(),
                 userInfo.get("given_name").toString(),
-                userInfo.get("family_name").toString());
+                userInfo.get("family_name").toString(),
+                (Date) userInfo.get("dateOfBirth"));
     }
 
 }

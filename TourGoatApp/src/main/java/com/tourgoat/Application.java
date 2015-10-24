@@ -1,6 +1,7 @@
 package com.tourgoat;
 
 import com.tourgoat.users.models.TestUser;
+import com.tourgoat.users.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tourgoat.users.repositories.TestUserDao;
@@ -23,6 +24,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        //user damy data
+//        userDao.save(new User("N", null, null, null, null, null, null, null, null, null));
         // save a couple of users
         userDao.save(new TestUser("fitsum@email.com", "Fitsum"));
         userDao.save(new TestUser("weni@email.com", "Weni"));

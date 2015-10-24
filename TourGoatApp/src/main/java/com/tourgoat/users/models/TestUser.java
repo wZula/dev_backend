@@ -1,6 +1,7 @@
 package com.tourgoat.users.models;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +15,15 @@ public class TestUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private long id;
 
-    @NotNull
+//    @NotNull
+    @Column(name = "Email")
     private String email;
 
-    @NotNull
+//    @NotNull
+    @Column(name = "TestEmail")
     private String name;
 
     public TestUser() {

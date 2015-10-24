@@ -11,8 +11,10 @@ import com.tourgoat.users.services.UserService;
 import com.tourgoat.users.utils.AuthUtils;
 import static com.tourgoat.users.utils.AuthenticationConstantMesg.CONFLICT_MSG;
 import static com.tourgoat.users.utils.AuthenticationConstantMesg.NOT_FOUND_MSG;
+import com.tourgoat.users.utils.DateService;
 import com.tourgoat.users.utils.Token;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +35,8 @@ public class UserProcessorImpl implements UserProcessor {
 
     @Override
     public ResponseEntity processUser(final HttpServletRequest request, final User.Provider provider,
-            final String id, final String displayName, final String email, final String picture,
-            final String name, final String givenName, final String familyName)
+            final String id, final String fullName, final String email, final String picture,
+            final String firstName, final String lastName, final Date dateOfBirth)
             throws JOSEException, ParseException {
 
         User user = null;
@@ -70,8 +72,8 @@ public class UserProcessorImpl implements UserProcessor {
 
             userToSave = foundUser;
             boolean updated = setUserProvider(provider, userToSave, id);
-            if (userToSave.getDisplayName() == null) {
-                userToSave.setDisplayName(displayName);
+            if (userToSave.getFullname() == null) {
+                userToSave.setFullname(fullName);
                 updated = true;
             }
             if (userToSave.getPicture() == null) {
@@ -95,14 +97,21 @@ public class UserProcessorImpl implements UserProcessor {
             } else {
                 userToSave = new User();
                 userToSave.setUserId(UUID.randomUUID().toString());
-                userToSave.setDisplayName(displayName);
+                userToSave.setFullname(fullName);
                 userToSave.setEmail(email);
-                userToSave.setName(name);
-                userToSave.setGivenName(givenName);
+                userToSave.setFirstName(firstName);
                 userToSave.setPicture(picture);
-                userToSave.setFamilyName(familyName);
-
+                userToSave.setLastName(lastName);
+                userToSave.setDateOfBirth(dateOfBirth); 
+                userToSave.setCreatedDate(DateService.getTodayDate());
+                userToSave.setIsAccountActive(true);
                 setUserProvider(provider, userToSave, id);
+                if(provider.getName().equalsIgnoreCase("facebook") || provider.getName().equalsIgnoreCase("goole")){
+                   userToSave.setIsEmailVerification(true);
+                   userToSave.setPassword("N/A");
+                }else{
+                  userToSave.setIsEmailVerification(false);  
+                }
                 userToSave = userService.save(userToSave);
             }
         }

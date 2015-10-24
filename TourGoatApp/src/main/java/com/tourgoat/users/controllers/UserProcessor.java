@@ -8,6 +8,7 @@ package com.tourgoat.users.controllers;
 import com.nimbusds.jose.JOSEException;
 import com.tourgoat.users.models.User;
 import java.text.ParseException;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -19,6 +20,6 @@ public interface UserProcessor {
 
      ResponseEntity processUser(final HttpServletRequest request, final User.Provider provider,
             final String id, final String displayName, final String email, final String picture,
-            final String name, final String givenName, final String familyName)
+             final String givenName, final String familyName, final Date dateOfBirth)
             throws JOSEException, ParseException;
 }
