@@ -14,10 +14,8 @@ import static com.tourgoat.users.controllers.OAuthConstants.CLIENT_SECRET;
 import static com.tourgoat.users.controllers.OAuthConstants.CODE_KEY;
 import static com.tourgoat.users.controllers.OAuthConstants.REDIRECT_URI_KEY;
 import com.tourgoat.users.models.User;
-import com.tourgoat.users.utils.DateService;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author fitsum
  */
 @RestController
-public class FacebookController {
+public class FacebookController implements ValidateData{
 
     private static final Logger LOG = Logger.getLogger(FacebookController.class);
 
@@ -93,7 +91,7 @@ public class FacebookController {
 
         final Map<String, Object> userInfo = jsonHelper.getResponseEntity(response);
 
-        checkFacebookData(userInfo);
+        checkUserInfo(userInfo);
 
         String userId = userInfo.get("id").toString();
         String userIdPictureUrl = userPictureUrl.replace("{user-id}", userId);
@@ -106,12 +104,13 @@ public class FacebookController {
                 userIdPictureUrl,
                 userInfo.get("first_name").toString(),
                 userInfo.get("last_name").toString(),
-                (Date) userInfo.get("dateOfBirth"));
+                (Date) userInfo.get("dateOfBirth"),
+                userInfo.get("gender").toString());
     }
 
     //Facebook update its API so there is a chance to get null value 
-    private void checkFacebookData(Map<String, Object> userInfo) {
-
+    @Override
+    public void checkUserInfo(Map<String, Object> userInfo) {
         if (!userInfo.containsKey("id")) {
             userInfo.put("id", "No ID");
         }
@@ -130,7 +129,8 @@ public class FacebookController {
         if (!userInfo.containsKey("dateOfBirth")) {
             userInfo.put("dateOfBirth", null);
         }
-
-    }
+         if (!userInfo.containsKey("gender")) {
+            userInfo.put("gender", "No Gender");
+        }}
 
 }

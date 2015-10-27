@@ -36,7 +36,7 @@ public class UserProcessorImpl implements UserProcessor {
     @Override
     public ResponseEntity processUser(final HttpServletRequest request, final User.Provider provider,
             final String id, final String fullName, final String email, final String picture,
-            final String firstName, final String lastName, final Date dateOfBirth)
+            final String firstName, final String lastName, final Date dateOfBirth,final String gender)
             throws JOSEException, ParseException {
 
         User user = null;
@@ -72,8 +72,8 @@ public class UserProcessorImpl implements UserProcessor {
 
             userToSave = foundUser;
             boolean updated = setUserProvider(provider, userToSave, id);
-            if (userToSave.getFullname() == null) {
-                userToSave.setFullname(fullName);
+            if (userToSave.getFullName() == null) {
+                userToSave.setFullName(fullName);
                 updated = true;
             }
             if (userToSave.getPicture() == null) {
@@ -97,7 +97,7 @@ public class UserProcessorImpl implements UserProcessor {
             } else {
                 userToSave = new User();
                 userToSave.setUserId(UUID.randomUUID().toString());
-                userToSave.setFullname(fullName);
+                userToSave.setFullName(fullName);
                 userToSave.setEmail(email);
                 userToSave.setFirstName(firstName);
                 userToSave.setPicture(picture);
@@ -105,8 +105,9 @@ public class UserProcessorImpl implements UserProcessor {
                 userToSave.setDateOfBirth(dateOfBirth); 
                 userToSave.setCreatedDate(DateService.getTodayDate());
                 userToSave.setIsAccountActive(true);
+                userToSave.setGender(gender);
                 setUserProvider(provider, userToSave, id);
-                if(provider.getName().equalsIgnoreCase("facebook") || provider.getName().equalsIgnoreCase("goole")){
+                if(provider.getName().equalsIgnoreCase("facebook") || provider.getName().equalsIgnoreCase("google")){
                    userToSave.setIsEmailVerification(true);
                    userToSave.setPassword("N/A");
                 }else{

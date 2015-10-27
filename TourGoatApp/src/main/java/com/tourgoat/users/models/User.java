@@ -33,7 +33,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String picture;
-    private String fullname;
+    private String fullName;
     private String firstName;
     private String lastName;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -44,6 +44,7 @@ public class User implements Serializable {
     private boolean isEmailVerification; 
     private String facebook;
     private String google;
+    private String gender;
 
     public User() {
     }
@@ -123,13 +124,16 @@ public class User implements Serializable {
         }
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
+
+
+    
 
     public String getFirstName() {
         return firstName;
@@ -181,9 +185,18 @@ public class User implements Serializable {
         this.isEmailVerification = isEmailVerification;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password + ", picture=" + picture + ", fullname=" + fullname + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", createdDate=" + createdDate + ", isAccountActive=" + isAccountActive + ", isEmailVerification=" + isEmailVerification + ", facebook=" + facebook + ", google=" + google + '}';
+        return "User{" + "id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password + ", picture=" + picture + ", fullname=" + fullName + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", createdDate=" + createdDate + ", isAccountActive=" + isAccountActive + ", isEmailVerification=" + isEmailVerification + ", facebook=" + facebook + ", google=" + google + '}';
     }
 
 

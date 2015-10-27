@@ -11,7 +11,9 @@ import com.tourgoat.users.services.UserService;
 import com.tourgoat.users.utils.AuthUtils;
 import static com.tourgoat.users.utils.AuthenticationConstantMesg.LOGING_ERROR_MSG;
 import com.tourgoat.users.utils.PasswordService;
+import com.tourgoat.users.utils.StringUtil;
 import com.tourgoat.users.utils.Token;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.core.Context;
@@ -51,9 +53,30 @@ public class LocalAuthenticationController {
     public ResponseEntity signup(@RequestBody @Valid final User user, @Context final HttpServletRequest request)
             throws JOSEException {
         user.setPassword(PasswordService.hashPassword(user.getPassword()));
+        
         final User savedUser = userService.save(user);
         final Token token = AuthUtils.createToken(request.getRemoteHost(), savedUser.getUserId());
         return new ResponseEntity<Token>(token, HttpStatus.CREATED);
     }  
+ 
+    private User checkUserInfo(User user) {
+        if (!StringUtil.isEmpty(user.getEmail())) {
+            user.setEmail("No email");
+        }
+        if (!StringUtil.isEmpty(user.getFirstName())) {
+            user.setFirstName("No first_name");
+        }
+        if (!StringUtil.isEmpty(user.getLastName())) {
+            user.setLastName("No last_name");
+        }
+        if (!StringUtil.isEmpty(user.getPicture())) {
+            user.setPicture("No picture");
+        }
+        if (user.getDateOfBirth()==null) {
+            user.setDateOfBirth(null);
+        }
+        
+        return user;
+    }
    
 }

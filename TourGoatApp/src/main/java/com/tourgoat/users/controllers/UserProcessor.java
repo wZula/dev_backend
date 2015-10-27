@@ -20,6 +20,6 @@ public interface UserProcessor {
 
      ResponseEntity processUser(final HttpServletRequest request, final User.Provider provider,
             final String id, final String displayName, final String email, final String picture,
-             final String givenName, final String familyName, final Date dateOfBirth)
+             final String givenName, final String familyName, final Date dateOfBirth,final String gender)
             throws JOSEException, ParseException;
 }
