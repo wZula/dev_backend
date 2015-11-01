@@ -8,12 +8,14 @@ package com.tourgoat.users.controllers;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.nimbusds.jose.JOSEException;
+import com.tourgoat.email.service.EmailService;
 import com.tourgoat.users.controller.helper.JsonHelper;
 import static com.tourgoat.users.controllers.OAuthConstants.CLIENT_ID_KEY;
 import static com.tourgoat.users.controllers.OAuthConstants.CLIENT_SECRET;
 import static com.tourgoat.users.controllers.OAuthConstants.CODE_KEY;
 import static com.tourgoat.users.controllers.OAuthConstants.REDIRECT_URI_KEY;
 import com.tourgoat.users.models.User;
+import com.tourgoat.users.utils.SessionIdentifierGenerator;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
@@ -59,7 +61,9 @@ public class FacebookController implements ValidateData{
 
     @Value("${facebook.userPictureUrl}")
     private String userPictureUrl;
-
+     @Autowired
+    private EmailService emailService;
+     
     private final JsonHelper jsonHelper = new JsonHelper();
 
     public FacebookController() {
@@ -95,7 +99,10 @@ public class FacebookController implements ValidateData{
 
         String userId = userInfo.get("id").toString();
         String userIdPictureUrl = userPictureUrl.replace("{user-id}", userId);
-
+        //Verification email
+       // emailService.sendMail(userInfo.get("email").toString(), "Testing", "Testing");
+        // String sessionId=new SessionIdentifierGenerator().nextSessionId();
+        emailService.sendConfirmationEmail(userInfo.get("email").toString(), userInfo.get("name").toString());
         // Step 3. Process the authenticated the user.
         return userProcessor.processUser(request, User.Provider.FACEBOOK,
                 userInfo.get("id").toString(),
@@ -133,4 +140,12 @@ public class FacebookController implements ValidateData{
             userInfo.put("gender", "No Gender");
         }}
 
+    public EmailService getEmailService() {
+        return emailService;
+    }
+
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+      
 }

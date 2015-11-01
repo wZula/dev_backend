@@ -7,13 +7,11 @@ package com.tourgoat.users.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 
@@ -45,10 +43,12 @@ public class User implements Serializable {
     private String facebook;
     private String google;
     private String gender;
+    private String sessionId;
+    private Status status=Status.PENDING;
 
     public User() {
     }
-
+ 
     public Long getId() {
         return id;
     }
@@ -193,13 +193,26 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    
-    @Override
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+  @Override
     public String toString() {
         return "User{" + "id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password + ", picture=" + picture + ", fullname=" + fullName + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", createdDate=" + createdDate + ", isAccountActive=" + isAccountActive + ", isEmailVerification=" + isEmailVerification + ", facebook=" + facebook + ", google=" + google + '}';
     }
-
-
     
 
 }

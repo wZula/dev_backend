@@ -53,7 +53,7 @@ public class AuthUtils {
 
         return new Token(jwt.serialize());
     }
-
+   
     public static String getSerializedToken(String authHeader) {
         return authHeader.split(" ")[1];
     }

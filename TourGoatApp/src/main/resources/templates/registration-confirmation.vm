@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <h3>Hi ${user.name}, welcome to the Tour Goat!</h3>
+
+        <div>
+            your email address <a href="mailto:${user.email}">${user.email}</a>.
+            To verify  <a href="/mail/${user.sessionId}">click</a>.
+        </div>
+    </body>
+</html>

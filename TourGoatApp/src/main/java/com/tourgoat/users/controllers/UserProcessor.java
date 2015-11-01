@@ -22,4 +22,5 @@ public interface UserProcessor {
             final String id, final String displayName, final String email, final String picture,
              final String givenName, final String familyName, final Date dateOfBirth,final String gender)
             throws JOSEException, ParseException;
+     
 }

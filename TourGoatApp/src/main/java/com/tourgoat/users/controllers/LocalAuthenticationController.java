@@ -6,16 +6,20 @@
 package com.tourgoat.users.controllers;
 
 import com.nimbusds.jose.JOSEException;
+import com.tourgoat.email.service.EmailService;
+import com.tourgoat.users.models.Status;
 import com.tourgoat.users.models.User;
 import com.tourgoat.users.services.UserService;
 import com.tourgoat.users.utils.AuthUtils;
 import static com.tourgoat.users.utils.AuthenticationConstantMesg.LOGING_ERROR_MSG;
 import com.tourgoat.users.utils.PasswordService;
+import com.tourgoat.users.utils.SessionIdentifierGenerator;
 import com.tourgoat.users.utils.StringUtil;
 import com.tourgoat.users.utils.Token;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +39,13 @@ public class LocalAuthenticationController {
  
     @Autowired
     private UserService userService;  
-
+    
+         @Autowired
+    private EmailService emailService;
+     
+    @Autowired
+    private UserProcessor userProcessor;
+    
     @RequestMapping("/auth/login")
     public ResponseEntity login(@RequestBody @Valid final User user, @Context final HttpServletRequest request)
             throws JOSEException {
@@ -55,6 +65,10 @@ public class LocalAuthenticationController {
         user.setPassword(PasswordService.hashPassword(user.getPassword()));
         
         final User savedUser = userService.save(user);
+        
+        String sessionId=new SessionIdentifierGenerator().nextSessionId();
+        emailService.sendConfirmationEmail(savedUser.getEmail(), savedUser.getFullName());
+    
         final Token token = AuthUtils.createToken(request.getRemoteHost(), savedUser.getUserId());
         return new ResponseEntity<Token>(token, HttpStatus.CREATED);
     }  
@@ -78,5 +92,19 @@ public class LocalAuthenticationController {
         
         return user;
     }
-   
+    /**
+     * 
+     * @param sessionId
+     * @return 
+     */ 
+    @RequestMapping("/mail/{id}")
+   public ResponseEntity emailVerification(@PathParam("id")String sessionId) {
+    User user=userService.findBySessionId(sessionId);
+    if(user!=null){
+        user.setStatus(Status.CREATED);
+        userService.save(user);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+    return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+    }
 }

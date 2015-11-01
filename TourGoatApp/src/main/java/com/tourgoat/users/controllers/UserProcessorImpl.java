@@ -106,6 +106,7 @@ public class UserProcessorImpl implements UserProcessor {
                 userToSave.setCreatedDate(DateService.getTodayDate());
                 userToSave.setIsAccountActive(true);
                 userToSave.setGender(gender);
+                //userToSave.setSessionId(sessionId);
                 setUserProvider(provider, userToSave, id);
                 if(provider.getName().equalsIgnoreCase("facebook") || provider.getName().equalsIgnoreCase("google")){
                    userToSave.setIsEmailVerification(true);

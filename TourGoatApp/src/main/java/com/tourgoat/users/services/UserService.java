@@ -22,6 +22,8 @@ public interface UserService {
     User findOne(String subject);
 
     User save(User user);
-
+    
     User findByUserId(String userId);
+    
+    User findBySessionId(String userId);
 }

@@ -30,6 +30,10 @@ public class UserServiceImpl implements UserService {
     public User findByGoogle(String id) {
         return this.userRepository.findByGoogle(id);
     }
+    @Override
+    public User findBySessionId(String id) {
+        return this.userRepository.findBySessionId(id);
+    }
 
     @Override
     public User findByEmail(String email) {

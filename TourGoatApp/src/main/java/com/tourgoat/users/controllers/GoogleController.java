@@ -8,6 +8,7 @@ package com.tourgoat.users.controllers;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.nimbusds.jose.JOSEException;
+import com.tourgoat.email.service.EmailService;
 import com.tourgoat.users.controller.helper.JsonHelper;
 import static com.tourgoat.users.controllers.OAuthConstants.AUTH_CODE;
 import static com.tourgoat.users.controllers.OAuthConstants.CLIENT_ID_KEY;
@@ -18,6 +19,7 @@ import static com.tourgoat.users.controllers.OAuthConstants.REDIRECT_URI_KEY;
 import com.tourgoat.users.models.User;
 import com.tourgoat.users.utils.AuthUtils;
 import com.tourgoat.users.utils.Constants;
+import com.tourgoat.users.utils.SessionIdentifierGenerator;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,10 +63,13 @@ public class GoogleController implements ValidateData{
     private String birthDayReqest;
      
     private final Client restClient;
-
+    
+     @Autowired
+    private EmailService emailService;
+     
     @Autowired
     private UserProcessor userProcessor;
-
+    
     private final JsonHelper jsonHelper = new JsonHelper();
 
     public GoogleController() {
@@ -103,6 +108,9 @@ public class GoogleController implements ValidateData{
         if (LOG.isDebugEnabled()) {
             LOG.debug("Google UserInfo: '" + userInfo + "'");
         }
+        
+        //String sessionId=new SessionIdentifierGenerator().nextSessionId();
+        emailService.sendConfirmationEmail(userInfo.get("email").toString(), userInfo.get("name").toString());
       // Step 3. Process the authenticated the user.
         return userProcessor.processUser(request, User.Provider.GOOGLE, 
                 userInfo.get("sub").toString(),
